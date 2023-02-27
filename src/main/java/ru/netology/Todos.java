@@ -1,11 +1,13 @@
 package ru.netology;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Todos {
     private Set<Task> taskSet;
     private Deque<Task> taskDeque;
     private int selector = 0;
+    private int maxTasks = 7;
 
     public Todos() {
         taskSet = new TreeSet<>(Comparator.comparing(Task::getTask));
@@ -20,8 +22,12 @@ public class Todos {
         return taskDeque;
     }
 
+    public void setMaxTasks(int maxTasks) {
+        this.maxTasks = maxTasks;
+    }
+
     public void addTask(Task taskAdd) {
-        if (taskSet.size() < 7) {
+        if (taskSet.size() < maxTasks) {
             if (selector == 0) {
                 taskDeque.offer(taskAdd);
             }
@@ -39,9 +45,10 @@ public class Todos {
     }
 
     public String getAllTasks() {
-        StringBuilder sb = new StringBuilder();
-        taskSet.forEach(taskGet -> sb.append(taskGet.getTask() + " "));
-        return sb.toString();
+        String collect = taskSet.stream()
+                .map(Task::getTask)
+                .collect(Collectors.joining(" "));
+        return collect;
     }
 
     public void restoreTask() {
@@ -49,12 +56,13 @@ public class Todos {
             selector++;
             Task restoreTask = taskDeque.pollLast();
 
-            if (restoreTask.getType().equals("ADD")) {
-                removeTask(restoreTask);
-            }
-
-            if (restoreTask.getType().equals("REMOVE")) {
-                addTask(restoreTask);
+            switch (restoreTask.getType()) {
+                case "ADD":
+                    removeTask(restoreTask);
+                    break;
+                case "REMOVE":
+                    addTask(restoreTask);
+                    break;
             }
             selector--;
         }

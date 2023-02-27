@@ -90,7 +90,7 @@ public class TodosTests {
 
     @Test
     void getAllTasksTest() {
-        String expected = "Акробатика Пробежка Учёба ";
+        String expected = "Акробатика Пробежка Учёба";
         todos.addTask(new Task("ADD", "Пробежка"));
         todos.addTask(new Task("ADD", "Акробатика"));
         todos.addTask(new Task("ADD", "Учёба"));
@@ -102,7 +102,7 @@ public class TodosTests {
 
     @Test
     void restoreTaskTest() {
-        String expected = "Пробежка Учёба ";
+        String expected = "Пробежка Учёба";
         todos.addTask(new Task("ADD", "Пробежка"));
         todos.addTask(new Task("ADD", "Акробатика"));
         todos.addTask(new Task("ADD", "Учёба"));
